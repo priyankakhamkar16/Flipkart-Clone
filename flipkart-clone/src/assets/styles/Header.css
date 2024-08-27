@@ -15,19 +15,36 @@
 }
 
 .header__search {
+  display: flex;
+  align-items: center;
   flex: 1;
   margin: 0 20px;
-  position: relative;
+  background-color: #f1f3f6;
+  border-radius: 2px;
+  padding: 5px;
 }
 
-.header__search input {
-  width: 100%;
+.header__searchInput {
+  flex: 1;
+  border: none;
   padding: 10px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  outline: none;
+  background-color: transparent;
 }
 
-.header__options {
+.header__searchButton {
+  background-color: #2874f0;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 0 2px 2px 0;
+}
+
+.header__searchButton i {
+  color: #fff;
+}
+
+.header__nav {
   display: flex;
   align-items: center;
 }
@@ -38,11 +55,16 @@
   margin: 0 10px;
   color: #000;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .header__option i {
   font-size: 20px;
-  margin-right: 5px;
+  margin-right: 8px;
+}
+
+.header__optionLineOne {
+  font-size: 14px;
 }
 
 .header__categories {
@@ -52,43 +74,43 @@
   padding: 10px 0;
 }
 
-.category {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.header__optionDropdown {
   position: relative;
+  cursor: pointer;
 }
 
-.category i {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.dropdown {
+.header__dropdown {
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
   background-color: #fff;
   border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
-.dropdown ul {
+.header__dropdown ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.dropdown ul li {
-  padding: 10px;
+.header__dropdown ul li {
+  padding: 10px 20px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.dropdown ul li:hover {
-  background-color: #f0f0f0;
+.header__dropdown ul li:hover {
+  background-color: #f1f3f6;
 }
 
-.category:hover .dropdown {
+.header__optionDropdown:hover .header__dropdown {
   display: block;
+}
+
+.header__option:hover,
+.header__optionDropdown:hover {
+  color: #2874f0;
 }

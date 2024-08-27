@@ -1,50 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import Categories from './components/Categories';
 import Footer from './components/Footer';
 import Home from './components/Home';
-import Product from './components/Product';
+import ProductPage from './components/ProductPage';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import CartPage from './components/CartPage';
 import './assets/styles/App.css';
 
 function App() {
-  // State to manage the current user
   const [user, setUser] = useState(null);
-
-  // State to manage the items in the shopping cart
   const [cart, setCart] = useState([]);
 
-  // Function to handle user login
-  const handleLogin = (loggedInUser) => {
-    setUser(loggedInUser);
+  // Handle user login
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
-  // Function to handle user signup
-  const handleSignup = (newUser) => {
-    setUser(newUser);
+  // Handle user logout
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
   };
 
-  // Function to handle adding a product to the cart
-  const addToCart = (product) => {
-    if (user) {
-      setCart([...cart, product]);
-      console.log('Product added to cart:', product);
-    } else {
-      alert('Please log in to add products to the cart.');
+  // Handle adding a product to the cart
+  const handleAddToCart = (product) => {
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
+  };
+
+  // Handle removing a product from the cart
+  const handleRemoveFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+  };
+
+  // Load user data from localStorage on component mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-  };
+  }, []);
 
   return (
     <Router>
-      <Header />
-      <Categories />
+      <Header onLogout={handleLogout} user={user} cart={cart} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<Product addToCart={addToCart} />} />
+        <Route
+          path="/products"
+          element={<ProductPage addToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/cart"
+          element={<CartPage cart={cart} removeFromCart={handleRemoveFromCart} />}
+        />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
       <Footer />
     </Router>

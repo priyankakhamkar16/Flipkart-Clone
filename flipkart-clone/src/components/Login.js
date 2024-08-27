@@ -8,14 +8,13 @@ function Login({ onLogin }) {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Retrieve the stored user data from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    if (storedUser && 
-       (storedUser.email === username || storedUser.mobile === username) && 
-        storedUser.password === password) {
+    if (storedUser &&
+       (storedUser.email === username || storedUser.mobile === username) &&
+       storedUser.password === password) {
       console.log('Login successful');
-      onLogin(storedUser); // Update parent component's state
+      onLogin(storedUser); // Update parent component's state if needed
       navigate('/'); // Redirect to the homepage after successful login
     } else {
       alert('Invalid username or password');
@@ -27,7 +26,7 @@ function Login({ onLogin }) {
       <div className="login-container">
         <div className="login-left">
           <h2>Login</h2>
-          <p>Get access to your Orders, Wishlist and Recommendations</p>
+          <p>Get access to your Orders, Wishlist, and Recommendations</p>
         </div>
         <div className="login-right">
           <input
@@ -43,10 +42,16 @@ function Login({ onLogin }) {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button onClick={handleLogin}>Login</button>
-          <p className="terms">By continuing, you agree to Flipkart's <Link to="#">Terms of Use</Link> and <Link to="#">Privacy Policy</Link>.</p>
+          <p className="terms">
+            By continuing, you agree to Flipkart's 
+            <Link to="#"> Terms of Use</Link> and 
+            <Link to="#"> Privacy Policy</Link>.
+          </p>
           <p className="or-text">OR</p>
           <button className="otp-login">Request OTP</button>
-          <p className="signup-link">New to Flipkart? <Link to="/signup">Create an account</Link></p>
+          <p className="signup-link">
+            New to Flipkart? <Link to="/signup">Create an account</Link>
+          </p>
         </div>
       </div>
     </div>

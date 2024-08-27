@@ -10,7 +10,6 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = () => {
-    // Store the user data in localStorage (or send to a backend server)
     const user = {
       username: username,
       email: email,
@@ -21,7 +20,6 @@ function Signup() {
     localStorage.setItem('user', JSON.stringify(user));
     console.log('User registered:', user);
 
-    // Redirect to the login page after successful signup
     navigate('/login');
   };
 
